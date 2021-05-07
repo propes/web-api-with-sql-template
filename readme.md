@@ -1,9 +1,10 @@
-# Web Api Template
+# Web Api With SQL Template
 
-This is a starter template for creating a new web service using asp.net core webapi.
+This is a starter template for creating a new web service using asp.net core webapi connecting to SQL Server.
 
 It features:
 - An azure pipelines file for CI/CD.
+- Set up for swagger documentation.
 - An arm template for automatically deploying to Azure App Service using IaC.
 
 
@@ -18,6 +19,11 @@ Alternatively you can run the api using the convenience bash script:
 ```sh
 sh run.sh
 ```
+
+
+## Swagger
+
+You can access the swagger api documentation when running locally at https://localhost:5001/swagger.
 
 
 ## Testing
