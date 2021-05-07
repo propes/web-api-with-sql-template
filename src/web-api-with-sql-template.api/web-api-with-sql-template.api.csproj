@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>web_api_template.api</RootNamespace>
+    <RootNamespace>WebApiWithSqlTemplate.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\web-api-template.domain\web-api-template.domain.csproj" />
+    <ProjectReference Include="..\web-api-with-sql-template.domain\web-api-with-sql-template.domain.csproj" />
   </ItemGroup>
 
 </Project>

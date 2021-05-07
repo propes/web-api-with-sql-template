@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace web_api_template.api
+namespace WebApiWithSqlTemplate.Api
 {
     public class Program
     {

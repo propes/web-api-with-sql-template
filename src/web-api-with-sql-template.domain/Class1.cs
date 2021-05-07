@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace web_api_template.domain
+namespace WebApiWithSqlTemplate.Domain
 {
     public class Class1
     {

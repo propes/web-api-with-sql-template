@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>web_api_template.domain.tests</RootNamespace>
+    <RootNamespace>WebApiWithSqlTemplate.Domain.Tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\web-api-template.domain\web-api-template.domain.csproj" />
+    <ProjectReference Include="..\web-api-with-sql-template.domain\web-api-with-sql-template.domain.csproj" />
   </ItemGroup>
 
 </Project>

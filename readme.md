@@ -11,7 +11,7 @@ It features:
 
 You can use the dotnet cli from with the `src` folder, e.g.:
 ```sh
-dotnet run -p web-api-template.api
+dotnet run -p web-api-with-sql-template.api
 ```
 
 Alternatively you can run the api using the convenience bash script:

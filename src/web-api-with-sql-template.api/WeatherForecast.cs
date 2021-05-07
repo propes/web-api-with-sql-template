@@ -1,6 +1,6 @@
 using System;
 
-namespace web_api_template.api
+namespace WebApiWithSqlTemplate.Api
 {
     public class WeatherForecast
     {
