@@ -1,22 +1,15 @@
-﻿using System;
-using WebApiWithSqlTemplate.Domain.Utilities;
+﻿using WebApiWithSqlTemplate.Domain.Utilities;
 
 namespace WebApiWithSqlTemplate.Domain.Models
 {
-    public class TodoItem
+    public sealed class TodoItem : AuditableEntity
     {
-        public Guid Id { get; }
-        public DateTimeOffset DateCreated { get; }
-        public DateTimeOffset DateModified { get; private set; }
         public string Description { get; private set; }
         public bool IsComplete { get; private set; }
         public bool IsDeleted { get; private set; }
 
         public TodoItem()
         {
-            Id = Guid.NewGuid();
-            DateCreated = DateTimeOffset.UtcNow;
-            DateModified = DateTimeOffset.UtcNow;
             IsComplete = false;
             IsDeleted = false;
         }
@@ -32,25 +25,32 @@ namespace WebApiWithSqlTemplate.Domain.Models
             Guard.IsNotLongerThan(description, 150, nameof(description));
 
             Description = description.Trim();
-            DateModified = DateTimeOffset.UtcNow;
+            UpdateDateModified();
         }
 
+        
+        public void UpdateIsComplete(bool isComplete)
+        {
+            IsComplete = isComplete;
+            UpdateDateModified();
+        }
+        
         public void MarkComplete()
         {
             IsComplete = true;
-            DateModified = DateTimeOffset.UtcNow;
+            UpdateDateModified();
         }
 
         public void MarkIncomplete()
         {
             IsComplete = false;
-            DateModified = DateTimeOffset.UtcNow;
+            UpdateDateModified();
         }
 
         public void Delete()
         {
             IsDeleted = true;
-            DateModified = DateTimeOffset.UtcNow;
+            UpdateDateModified();
         }
     }
 }

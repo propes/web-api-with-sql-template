@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "web_api_template.api": {
+    "selfhost": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

@@ -4,6 +4,22 @@ namespace WebApiWithSqlTemplate.Domain.Utilities
 {
     public static class Guard
     {
+        public static void IsNotNull<T>(T value, string nameof)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof);
+            }
+        }
+        
+        public static void IsNotDefault<T>(T value, string nameof)
+        {
+            if (value.Equals(default(T)))
+            {
+                throw new ArgumentException("Value cannot be default.", nameof);
+            }
+        }
+        
         public static void IsNotNullOrWhiteSpace(string value, string nameof)
         {
             if (string.IsNullOrWhiteSpace(value))
