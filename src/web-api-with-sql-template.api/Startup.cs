@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using WebApiWithSqlTemplate.Api.DependencyInjection;
+using WebApiWithSqlTemplate.Api.Swagger;
 using WebApiWithSqlTemplate.Domain.Contexts;
 
 namespace WebApiWithSqlTemplate.Api
@@ -26,6 +26,8 @@ namespace WebApiWithSqlTemplate.Api
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllers();
+            
+            // TODO: add fluent validation
 
             services.AddSwagger();
 
@@ -38,10 +40,10 @@ namespace WebApiWithSqlTemplate.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Api With SQL Template v1"));
             }
 
+            app.UseSwagger();
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
