@@ -9,11 +9,16 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
     {
         public Guid Id { get; set; }
         public IReadOnlyCollection<TodoItemDto> Items { get; set; }
-        
+
         public static TodoListDto Map(TodoList todoList) => new()
         {
             Id = todoList.Id,
-            Items = todoList.Items.Select(TodoItemDto.Map).ToList().AsReadOnly()
+            Items = todoList
+                .Items
+                .Where(i => !i.IsDeleted)
+                .Select(TodoItemDto.Map)
+                .ToList()
+                .AsReadOnly()
         };
     }
 }

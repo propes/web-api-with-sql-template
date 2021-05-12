@@ -1,4 +1,5 @@
-﻿using WebApiWithSqlTemplate.Domain.Utilities;
+﻿using System;
+using WebApiWithSqlTemplate.Domain.Utilities;
 
 namespace WebApiWithSqlTemplate.Domain.Models
 {
@@ -7,13 +8,17 @@ namespace WebApiWithSqlTemplate.Domain.Models
         public string Description { get; private set; }
         public bool IsComplete { get; private set; }
         public bool IsDeleted { get; private set; }
+        
+        public TodoItem() : this(Guid.NewGuid())
+        {
+        }
 
-        public TodoItem()
+        private TodoItem(Guid id) : base(id)
         {
             IsComplete = false;
             IsDeleted = false;
         }
-
+        
         public TodoItem(string description) : this()
         {
             UpdateDescription(description);

@@ -11,7 +11,7 @@ namespace WebApiWithSqlTemplate.Domain.Models
 
         public IReadOnlyCollection<TodoItem> Items => _items.AsReadOnly();
 
-        private TodoList()
+        public TodoList() : this(Guid.NewGuid())
         {
         }
 

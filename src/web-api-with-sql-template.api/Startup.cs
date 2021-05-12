@@ -22,7 +22,11 @@ namespace WebApiWithSqlTemplate.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoListContext>(opt => opt.UseInMemoryDatabase("TodoLists"));
+            services.AddDbContext<TodoListContext>(opt =>
+            {
+                opt.UseSqlite(
+                    Configuration.GetConnectionString("TodoListContext"));
+            });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllers();

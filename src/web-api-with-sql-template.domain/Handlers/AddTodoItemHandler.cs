@@ -1,45 +1,48 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WebApiWithSqlTemplate.Domain.Commands;
 using WebApiWithSqlTemplate.Domain.Contexts;
 using WebApiWithSqlTemplate.Domain.Models;
-using WebApiWithSqlTemplate.Domain.Queries;
 using WebApiWithSqlTemplate.Domain.Results;
 using WebApiWithSqlTemplate.Domain.Utilities;
 
 namespace WebApiWithSqlTemplate.Domain.Handlers
 {
-    public sealed class GetTodoListHandler
+    public sealed class AddTodoItemHandler
     {
         private readonly TodoListContext _dbContext;
 
-        public GetTodoListHandler(TodoListContext dbContext)
+        public AddTodoItemHandler(TodoListContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<Result<TodoList>> Handle(GetTodoList query)
+        public async Task<Result<TodoItem>> Handle(AddTodoItem command)
         {
-            Guard.IsNotNull(query, nameof(query));
+            Guard.IsNotNull(command, nameof(command));
 
             try
             {
                 var todoList = await _dbContext
-                    .Set<TodoList>()
+                    .TodoLists
                     .Include(x => x.Items)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Id == query.Id);
-
+                    .FirstOrDefaultAsync(x => x.Id == command.TodoListId);
+                
                 if (todoList == null)
                 {
-                    return Result<TodoList>.NotFound();
+                    return Result<TodoItem>.NotFound();
                 }
-                
-                return Result<TodoList>.From(todoList);
+
+                var todoItem = todoList.AddItem(command.Description);
+
+                await _dbContext.SaveChangesAsync();
+
+                return Result<TodoItem>.From(todoItem);
             }
             catch (Exception e)
             {
-                return Result<TodoList>.From(e);
+                return Result<TodoItem>.From(e);
             }
         }
     }

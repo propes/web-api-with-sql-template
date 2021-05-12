@@ -8,10 +8,6 @@ namespace WebApiWithSqlTemplate.Domain.Models
         public DateTimeOffset DateCreated { get; }
         public DateTimeOffset DateModified { get; private set; }
 
-        protected AuditableEntity() : this(Guid.NewGuid())
-        {
-        }
-
         protected AuditableEntity(Guid id)
         {
             Id = id;
@@ -19,7 +15,7 @@ namespace WebApiWithSqlTemplate.Domain.Models
             DateModified = DateTimeOffset.UtcNow;
         } 
         
-        public void UpdateDateModified()
+        protected void UpdateDateModified()
         {
             DateModified = DateTimeOffset.UtcNow;
         }

@@ -8,6 +8,9 @@ namespace WebApiWithSqlTemplate.Api.DependencyInjection
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
             services.AddScoped<GetTodoListHandler>();
+            services.AddScoped<AddTodoItemHandler>();
+            services.AddScoped<UpdateTodoItemHandler>();
+            services.AddScoped<RemoveTodoItemHandler>();
 
             return services;
         }
