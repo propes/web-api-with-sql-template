@@ -7,7 +7,6 @@ namespace WebApiWithSqlTemplate.Domain.Models
     {
         public string Description { get; private set; }
         public bool IsComplete { get; private set; }
-        public bool IsDeleted { get; private set; }
         
         public TodoItem() : this(Guid.NewGuid())
         {
@@ -16,7 +15,6 @@ namespace WebApiWithSqlTemplate.Domain.Models
         private TodoItem(Guid id) : base(id)
         {
             IsComplete = false;
-            IsDeleted = false;
         }
         
         public TodoItem(string description) : this()
@@ -49,12 +47,6 @@ namespace WebApiWithSqlTemplate.Domain.Models
         public void MarkIncomplete()
         {
             IsComplete = false;
-            UpdateDateModified();
-        }
-
-        public void Delete()
-        {
-            IsDeleted = true;
             UpdateDateModified();
         }
     }

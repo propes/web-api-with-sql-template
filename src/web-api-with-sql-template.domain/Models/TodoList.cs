@@ -43,7 +43,7 @@ namespace WebApiWithSqlTemplate.Domain.Models
         public void RemoveItem(Guid id)
         {
             var item = GetItem(id);
-            item.Delete();
+            _items.Remove(item);
             
             UpdateDateModified();
         }

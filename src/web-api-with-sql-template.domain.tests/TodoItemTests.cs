@@ -37,7 +37,6 @@ namespace WebApiWithSqlTemplate.Domain.Tests
             var todoItem = new TodoItem();
 
             todoItem.IsComplete.Should().BeFalse();
-            todoItem.IsDeleted.Should().BeFalse();
         }
 
         [Fact]
@@ -53,7 +52,7 @@ namespace WebApiWithSqlTemplate.Domain.Tests
         {
             var todoItem = new TodoItem();
             var input = new String('i', 150);
-            
+
             todoItem.UpdateDescription(input);
 
             todoItem.Description.Should().Be(input);
@@ -78,7 +77,7 @@ namespace WebApiWithSqlTemplate.Domain.Tests
         {
             var todoItem = new TodoItem();
             var input = new String('i', 151);
-            
+
             todoItem
                 .Invoking(t => t.UpdateDescription(input))
                 .Should()
@@ -114,12 +113,12 @@ namespace WebApiWithSqlTemplate.Domain.Tests
         public void MarkCompleteShouldUpdateState()
         {
             var todoItem = new TodoItem();
-            
+
             todoItem.MarkComplete();
 
             todoItem.IsComplete.Should().BeTrue();
         }
-        
+
         [Fact]
         public void MarkCompleteShouldUpdateDateModified()
         {
@@ -129,43 +128,23 @@ namespace WebApiWithSqlTemplate.Domain.Tests
 
             todoItem.DateModified.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1));
         }
-        
+
         [Fact]
         public void MarkIncompleteShouldUpdateState()
         {
             var todoItem = new TodoItem();
-            
+
             todoItem.MarkIncomplete();
 
             todoItem.IsComplete.Should().BeFalse();
         }
-        
+
         [Fact]
         public void MarkIncompleteShouldUpdateDateModified()
         {
             var todoItem = new TodoItem();
 
             todoItem.MarkIncomplete();
-
-            todoItem.DateModified.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1));
-        }
-        
-        [Fact]
-        public void DeleteShouldSoftDelete()
-        {
-            var todoItem = new TodoItem();
-            
-            todoItem.Delete();
-
-            todoItem.IsDeleted.Should().BeTrue();
-        }
-        
-        [Fact]
-        public void DeleteShouldUpdateDateModified()
-        {
-            var todoItem = new TodoItem();
-
-            todoItem.Delete();
 
             todoItem.DateModified.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(1));
         }

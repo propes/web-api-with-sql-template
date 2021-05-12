@@ -13,9 +13,7 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
         public static TodoListDto Map(TodoList todoList) => new()
         {
             Id = todoList.Id,
-            Items = todoList
-                .Items
-                .Where(i => !i.IsDeleted)
+            Items = todoList.Items
                 .Select(TodoItemDto.Map)
                 .ToList()
                 .AsReadOnly()
