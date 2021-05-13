@@ -7,12 +7,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-parameters:
-- name: azureSubscription
-  type: string
-- name: subscriptionId
-  type: string
-
 variables:
   resourceGroupName: 'rg-test-shared-uks'
   resourceGroupLocation: 'uksouth'
@@ -31,8 +25,8 @@ steps:
   displayName: Deploy infrastructure
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: ${{ parameters.azureSubscription }}
-    subscriptionId: ${{ parameters.subscriptionId }}
+    azureResourceManagerConnection: '$(azureSubscription)'
+    subscriptionId: '$(subscriptionId)'
     action: 'Create Or Update Resource Group'
     resourceGroupName: '$(resourceGroupName)'
     location: '$(resourceGroupLocation)'
@@ -61,7 +55,7 @@ steps:
 - task: AzureWebApp@1
   displayName: 'Azure Web App Deploy'
   inputs:
-    azureSubscription: ${{ parameters.azureSubscription }}
+    azureSubscription: $(azureSubscription)
     appType: webAppLinux
     appName: $(appName)
     package: $(Build.ArtifactStagingDirectory)/**/*.zip
