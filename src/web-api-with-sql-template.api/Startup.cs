@@ -24,8 +24,8 @@ namespace WebApiWithSqlTemplate.Api
         {
             services.AddDbContext<TodoListContext>(opt =>
             {
-                opt.UseSqlite(
-                    Configuration.GetConnectionString("TodoListContext"));
+                // opt.UseSqlite(Configuration.GetConnectionString("TodoListContext"));
+                opt.UseSqlServer(Configuration.GetConnectionString("TodoListContext"));
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
