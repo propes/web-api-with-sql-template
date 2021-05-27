@@ -12,8 +12,11 @@ namespace WebApiWithSqlTemplate.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            _env = env;
             Configuration = configuration;
         }
 
@@ -24,13 +27,19 @@ namespace WebApiWithSqlTemplate.Api
         {
             services.AddDbContext<TodoListContext>(opt =>
             {
-                // opt.UseSqlite(Configuration.GetConnectionString("TodoListContext"));
-                opt.UseSqlServer(Configuration.GetConnectionString("TodoListContext"));
+                if (_env.IsDevelopment())
+                {
+                    opt.UseSqlite(Configuration.GetConnectionString("TodoListContext"));
+                }
+                else
+                {
+                    opt.UseSqlServer(Configuration.GetConnectionString("TodoListContext"));
+                }
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllers();
-            
+
             // TODO: add fluent validation
 
             services.AddSwagger();
@@ -39,25 +48,22 @@ namespace WebApiWithSqlTemplate.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseSwagger();
-            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
