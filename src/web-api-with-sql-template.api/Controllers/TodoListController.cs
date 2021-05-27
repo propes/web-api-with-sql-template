@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         /// Gets a todo list by id.
         /// </summary>
         /// <param name="id">The todo list id.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>The todo list or an error code.</returns>
         /// <remarks>
         /// Stub responses:
@@ -48,17 +50,19 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status410Gone)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TodoListDto>> Get(Guid id)
+        public async Task<ActionResult<TodoListDto>> Get(Guid id, CancellationToken cancellationToken)
         {
             if (TryGetStubScenario(id, out var stubScenario))
             {
                 return await stubScenario();
             }
 
-            var result = await _handler.Handle(new GetTodoList
-            {
-                Id = id
-            });
+            var result = await _handler.Handle(
+                new GetTodoList
+                {
+                    Id = id
+                },
+                cancellationToken);
 
             return OkFromResult(result, TodoListDto.Map);
         }

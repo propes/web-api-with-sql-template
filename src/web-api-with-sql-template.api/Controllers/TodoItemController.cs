@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +26,13 @@ namespace WebApiWithSqlTemplate.Api.Controllers
             _updateHandler = updateHandler;
             _removeHandler = removeHandler;
         }
-        
+
         /// <summary>
         /// Adds a todo list item.
         /// </summary>
         /// <param name="todoListId">The todo list id.</param>
-        /// <param name="dto">The todo item details</param>
+        /// <param name="dto">The todo item details.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>The added todo item or an error code.</returns>
         /// <remarks>
         /// Stub responses:
@@ -56,28 +58,32 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status410Gone)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TodoItemDto>> Add(Guid todoListId, AddTodoItemDto dto)
+        public async Task<ActionResult<TodoItemDto>> Add(Guid todoListId, AddTodoItemDto dto,
+            CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _addHandler.Handle(new AddTodoItem
-            {
-                TodoListId = todoListId,
-                Description = dto.Description
-            });
+            var result = await _addHandler.Handle(
+                new AddTodoItem
+                {
+                    TodoListId = todoListId,
+                    Description = dto.Description
+                },
+                cancellationToken);
 
             return AcceptedFromResult(result, TodoItemDto.Map);
         }
-        
+
         /// <summary>
         /// Updates a todo list item.
         /// </summary>
         /// <param name="todoListId">The todo list id.</param>
         /// <param name="id">The todo item id.</param>
         /// <param name="dto">The todo item details to update.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>The updated todo item or an error code.</returns>
         /// <remarks>
         /// Stub responses:
@@ -103,20 +109,23 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status410Gone)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TodoItemDto>> Update(Guid todoListId, Guid id, UpdateTodoItemDto dto)
+        public async Task<ActionResult<TodoItemDto>> Update(Guid todoListId, Guid id, UpdateTodoItemDto dto,
+            CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _updateHandler.Handle(new UpdateTodoItem
-            {
-                Id = id,
-                TodoListId = todoListId,
-                Description = dto.Description,
-                IsComplete = dto.IsComplete
-            });
+            var result = await _updateHandler.Handle(
+                new UpdateTodoItem
+                {
+                    Id = id,
+                    TodoListId = todoListId,
+                    Description = dto.Description,
+                    IsComplete = dto.IsComplete
+                },
+                cancellationToken);
 
             return AcceptedFromResult(result, TodoItemDto.Map);
         }
@@ -126,6 +135,7 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         /// </summary>
         /// <param name="todoListId">The todo list id.</param>
         /// <param name="id">The todo item id.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>No content or an error code.</returns>
         /// <remarks>
         /// Stub responses:
@@ -151,13 +161,15 @@ namespace WebApiWithSqlTemplate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status410Gone)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Remove(Guid todoListId, Guid id)
+        public async Task<ActionResult> Remove(Guid todoListId, Guid id, CancellationToken cancellationToken)
         {
-            var result = await _removeHandler.Handle(new RemoveTodoItem
-            {
-                Id = id,
-                TodoListId = todoListId
-            });
+            var result = await _removeHandler.Handle(
+                new RemoveTodoItem
+                {
+                    Id = id,
+                    TodoListId = todoListId
+                },
+                cancellationToken);
 
             return NoContentFromResult(result);
         }

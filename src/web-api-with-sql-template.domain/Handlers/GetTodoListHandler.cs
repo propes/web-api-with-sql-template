@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApiWithSqlTemplate.Domain.Contexts;
@@ -18,7 +19,7 @@ namespace WebApiWithSqlTemplate.Domain.Handlers
             _dbContext = dbContext;
         }
 
-        public async Task<Result<TodoList>> Handle(GetTodoList query)
+        public async Task<Result<TodoList>> Handle(GetTodoList query, CancellationToken cancellationToken)
         {
             Guard.IsNotNull(query, nameof(query));
 
@@ -28,7 +29,7 @@ namespace WebApiWithSqlTemplate.Domain.Handlers
                     .Set<TodoList>()
                     .Include(x => x.Items)
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Id == query.Id);
+                    .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
 
                 if (todoList == null)
                 {

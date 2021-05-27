@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApiWithSqlTemplate.Domain.Commands;
@@ -17,7 +18,7 @@ namespace WebApiWithSqlTemplate.Domain.Handlers
             _dbContext = dbContext;
         }
 
-        public async Task<Result> Handle(RemoveTodoItem command)
+        public async Task<Result> Handle(RemoveTodoItem command, CancellationToken cancellationToken)
         {
             Guard.IsNotNull(command, nameof(command));
 
@@ -26,7 +27,7 @@ namespace WebApiWithSqlTemplate.Domain.Handlers
                 var todoList = await _dbContext
                     .TodoLists
                     .Include(x => x.Items)
-                    .FirstOrDefaultAsync(x => x.Id == command.TodoListId);
+                    .FirstOrDefaultAsync(x => x.Id == command.TodoListId, cancellationToken);
 
                 if (todoList == null)
                 {
@@ -35,7 +36,7 @@ namespace WebApiWithSqlTemplate.Domain.Handlers
 
                 todoList.RemoveItem(command.Id);
 
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(cancellationToken);
                 
                 return Result.Success();
             }
