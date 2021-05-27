@@ -4,7 +4,7 @@ namespace WebApiWithSqlTemplate.Domain.Commands
 {
     public sealed class AddTodoItem
     {
-        public Guid TodoListId { get; set; }
-        public string Description { get; set; }
+        public Guid TodoListId { get; init; }
+        public string Description { get; init; }
     }
 }

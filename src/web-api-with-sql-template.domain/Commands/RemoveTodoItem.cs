@@ -4,7 +4,7 @@ namespace WebApiWithSqlTemplate.Domain.Commands
 {
     public sealed class RemoveTodoItem
     {
-        public Guid Id { get; set; }
-        public Guid TodoListId { get; set; }
+        public Guid Id { get; init; }
+        public Guid TodoListId { get; init; }
     }
 }

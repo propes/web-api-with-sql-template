@@ -4,6 +4,6 @@ namespace WebApiWithSqlTemplate.Domain.Queries
 {
     public class GetTodoList
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; init; }
     }
 }
