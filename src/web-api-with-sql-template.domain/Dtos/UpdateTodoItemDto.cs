@@ -6,9 +6,9 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
     {
         [Required]
         [StringLength(150)]
-        public string Description { get; set; }
+        public string Description { get; init; }
         
         [Required]
-        public bool IsComplete { get; set; }
+        public bool IsComplete { get; init; }
     }
 }

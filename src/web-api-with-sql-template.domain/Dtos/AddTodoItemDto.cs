@@ -6,6 +6,6 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
     {
         [Required]
         [StringLength(150)]
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

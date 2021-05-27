@@ -5,9 +5,9 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
 {
     public sealed class TodoItemDto
     {
-        public Guid Id { get; set; }
-        public string Description { get; set; }
-        public bool IsComplete { get; set; }
+        public Guid Id { get; init; }
+        public string Description { get; init; }
+        public bool IsComplete { get; init; }
 
         public static TodoItemDto Map(TodoItem todoItem) => new()
         {

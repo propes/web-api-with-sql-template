@@ -7,8 +7,8 @@ namespace WebApiWithSqlTemplate.Domain.Dtos
 {
     public sealed class TodoListDto
     {
-        public Guid Id { get; set; }
-        public IReadOnlyCollection<TodoItemDto> Items { get; set; }
+        public Guid Id { get; init; }
+        public IReadOnlyCollection<TodoItemDto> Items { get; init; }
 
         public static TodoListDto Map(TodoList todoList) => new()
         {
